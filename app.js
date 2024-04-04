@@ -3,6 +3,7 @@ const app = express()
 const handlebars = require("express-handlebars").engine
 const bodyParser = require("body-parser")
 const post = require("./models/post")
+const handle = require('express-handlebars')
 
 app.engine("handlebars", handlebars({defaultLayout: "main"}))
 app.set("view engine", "handlebars")
@@ -14,6 +15,10 @@ app.get("/", function(req, res){
     res.render("primeira_pagina")
 })
 
+handle.registerHelper('eq', function(a, b, options) {
+    return a === b ;
+});
+    
 app.get("/consulta", function(req, res){
     post.findAll().then(function(post){
         res.render("consulta", {post})
